@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>PWA Práctica 9 - Azure</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Manifest PWA -->
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <!-- Color barra del navegador en móvil -->
+  <meta name="theme-color" content="#6200ee">
+
+  <!-- Ícono -->
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+</head>
+<body>
+  <h1>PWA Práctica 9 - Azure</h1>
+  <p>Esta PWA está desplegada en Azure App Service.</p>
+
+  <button id="btnCargar">Probar llamada a la API</button>
+
+  <pre id="resultado" style="background:#f4f4f4; padding:10px; border-radius:4px;"></pre>
+
+  <script src="app.js"></script>
+
+  <script>
+    // Registro del Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(reg => console.log('Service Worker registrado', reg.scope))
+          .catch(err => console.log('Error registrando Service Worker', err));
+      });
+    }
+  </script>
+</body>
+</html>

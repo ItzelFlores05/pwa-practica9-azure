@@ -1,0 +1,17 @@
+
+const API_BASE_URL = "https://api-practica9-sd.azurewebsites.net";
+
+const btn = document.getElementById("btnCargar");
+const salida = document.getElementById("resultado");
+
+btn.addEventListener("click", async () => {
+  salida.textContent = "Consultando API en Azure...";
+
+  try {
+    const resp = await fetch(`${API_BASE_URL}/productos`);
+    const data = await resp.json();
+    salida.textContent = JSON.stringify(data, null, 2);
+  } catch (err) {
+    salida.textContent = "Error al llamar a la API:\n" + err;
+  }
+});
