@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -14,17 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
+      - name: Zip artifact
+        run: zip -r site.zip .
 
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_53489EBD1DBB4622BD9EC44F92884C46 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_0A65C1D57DE94D278343325EE479065B }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_C6C75CD2A4A741769E0A95B94C740BB9 }}
-
-      - name: Deploy static files to Azure Web App
-        uses: azure/webapps-deploy@v3
+      - name: Deploy to Azure Web App (Linux)
+        uses: azure/webapps-deploy@v2
         with:
-          app-name: 'pwa-practica9-sd'
-          slot-name: 'Production'
-          package: .
+          app-name: "pwa-practica9-sd"
+          slot-name: "Production"
+          package: "site.zip"
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
